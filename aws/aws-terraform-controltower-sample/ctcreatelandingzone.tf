@@ -70,5 +70,5 @@ resource "aws_controltower_landing_zone" "example" {
    }
 }
 EOF
-  # version       = "3.3"
+  version       = "4.0"
 }
