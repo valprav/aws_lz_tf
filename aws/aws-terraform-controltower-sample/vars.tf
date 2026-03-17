@@ -1,6 +1,6 @@
 variable "region" {
   description = "The AWS Region that the resources will be provisioned into"
-  default = "ap-southeast-2"
+  default = "eu-central-1"
 }
 
 variable "audit_close_on_delete" {
@@ -42,7 +42,7 @@ variable "governed_regions" {
   description = "Control Tower Governed Regions"
   type = list(string)
   default = [
-    "ap-southeast-2",
-    "ap-southeast-4"
+    "eu-central-1",
+    "eu-west-3"
   ]  
 }
