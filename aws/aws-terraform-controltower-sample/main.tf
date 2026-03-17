@@ -10,6 +10,6 @@ terraform {
 # Configure the AWS provider
 provider "aws" {
   region = "${var.region}" # region = "ap-southeast-2"
-  profile = "${var.aws_profile}"
+  # profile = "${var.aws_profile}"
 }
 
