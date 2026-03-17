@@ -1,5 +1,5 @@
 # aws_profile = "controltower1"
-audit_account_email = "raidonval@gmail.com"
+audit_account_email = "praveshvalecha23@gmail.com"
 audit_account_friendlyname = "Security"
 audit_close_on_delete = true
 logging_account_email = "raidonval@gmail.com"
