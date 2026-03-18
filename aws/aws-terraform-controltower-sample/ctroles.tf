@@ -144,6 +144,10 @@ resource "aws_iam_role_policy" "awscontroltowercloudtrail_inline_policy" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "awscontroltowercloudtrail_managedpolicy" {
+  role       = aws_iam_role.awscontroltowercloudtrail_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSControlTowerCloudTrailRolePolicy"
+}
 
 resource "aws_iam_role" "awscontroltowerconfigaggregator_role" {
   name = "AWSControlTowerConfigAggregatorRoleForOrganizations"
@@ -155,7 +159,7 @@ resource "aws_iam_role" "awscontroltowerconfigaggregator_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Service": "cloudtrail.amazonaws.com"
+        "Service": "config.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
     }
