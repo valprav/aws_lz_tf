@@ -8,22 +8,31 @@ resource "aws_organizations_organization" "org" {
   feature_set = "ALL"
 }
 
+# Create the Core organization unit
+
+resource "aws_organizations_organizational_unit" "core" {
+  name      = "Core"
+  parent_id = aws_organizations_organization.org.roots[0].id
+}
+
 # Create the Audit Account
 
 resource "aws_organizations_account" "audit" {
-  depends_on = [ aws_organizations_organization.org ]
-  name  = "${var.audit_account_friendlyname}"
-  email = "${var.audit_account_email}"
-  close_on_deletion = "${var.audit_close_on_delete}"
+  depends_on        = [aws_organizations_organization.org, aws_organizations_organizational_unit.core]
+  name              = var.audit_account_friendlyname
+  email             = var.audit_account_email
+  close_on_deletion = var.audit_close_on_delete
+  parent_id         = aws_organizations_organizational_unit.core.id
 }
 
 # Create the Logging Account
 
 resource "aws_organizations_account" "logging" {
-  depends_on = [ aws_organizations_organization.org ]
-  name  = "${var.logging_account_friendlyname}"
-  email = "${var.logging_account_email}"
-  close_on_deletion = "${var.logging_close_on_delete}"
+  depends_on        = [aws_organizations_organization.org, aws_organizations_organizational_unit.core]
+  name              = var.logging_account_friendlyname
+  email             = var.logging_account_email
+  close_on_deletion = var.logging_close_on_delete
+  parent_id         = aws_organizations_organizational_unit.core.id
 }
 
 resource "aws_controltower_landing_zone" "example" {
