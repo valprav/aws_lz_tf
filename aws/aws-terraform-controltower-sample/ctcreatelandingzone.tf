@@ -45,15 +45,6 @@ import {
   id = "023360292471"
 }
 
-removed {
-  from = aws_controltower_landing_zone.example
-
-  lifecycle {
-    destroy = false
-  }
-}
-
-/*
 resource "aws_controltower_landing_zone" "example" {
   depends_on = [
     aws_organizations_account.audit,
@@ -111,4 +102,3 @@ resource "aws_controltower_landing_zone" "example" {
     }
   })
 }
-*/
