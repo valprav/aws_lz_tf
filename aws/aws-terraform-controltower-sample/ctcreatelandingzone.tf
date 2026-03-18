@@ -35,6 +35,17 @@ resource "aws_organizations_account" "logging" {
   parent_id         = aws_organizations_organizational_unit.core.id
 }
 
+import {
+  to = aws_organizations_organizational_unit.core
+  id = "ou-kssm-c1225zdp"
+}
+
+import {
+  to = aws_organizations_account.audit
+  id = "023360292471"
+}
+
+/*
 resource "aws_controltower_landing_zone" "example" {
   depends_on = [
     aws_organizations_account.audit,
@@ -92,3 +103,4 @@ resource "aws_controltower_landing_zone" "example" {
     }
   })
 }
+*/
