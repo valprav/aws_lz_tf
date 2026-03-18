@@ -77,5 +77,3 @@ resource "aws_controltower_landing_zone" "example" {
     }
   })
 }
-  version       = "4.0"
-}
