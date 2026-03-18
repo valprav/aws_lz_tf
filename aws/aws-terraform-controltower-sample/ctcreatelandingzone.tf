@@ -38,7 +38,13 @@ resource "aws_organizations_account" "logging" {
 resource "aws_controltower_landing_zone" "example" {
   depends_on = [
     aws_organizations_account.audit,
-    aws_organizations_account.logging
+    aws_organizations_account.logging,
+    aws_iam_role_policy.awscontroltoweradmin_inline_policy,
+    aws_iam_role_policy_attachment.awscontroltoweradmin_managedpolicy,
+    aws_iam_role_policy.awscontroltowerstackset_inline_policy,
+    aws_iam_role_policy_attachment.awscontroltowercloudtrail_managedpolicy,
+    aws_iam_role_policy.awscontroltowerconfigrole_inline_policy,
+    aws_iam_role_policy_attachment.awscontroltowerconfigrole_managedpolicy
   ]
 
   version = "4.0"
