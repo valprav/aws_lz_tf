@@ -26,49 +26,56 @@ resource "aws_organizations_account" "logging" {
   close_on_deletion = "${var.logging_close_on_delete}"
 }
 
-
-# Create the Backup Account
-
-#resource "aws_organizations_account" "backup" {
-#  name  = "${var.backup_account_friendlyname}"
-#  email = "${var.backup_account_email}"
-#  close_on_deletion = "${var.backup_close_on_delete}"
-#}
-
-
-
 resource "aws_controltower_landing_zone" "example" {
-  manifest_json = <<EOF
-{
-   "governedRegions": ["${join(",", var.governed_regions)}"],
-   "organizationStructure": {
-       "security": {
-           "name": "CORE"
-       },
-       "sandbox": {
-           "name": "Sandbox"
-       }
-   },
-   "centralizedLogging": {
-        "accountId": "${aws_organizations_account.logging.id}" ,
-        "configurations": {
-            "loggingBucket": {
-                "retentionDays": 60
-            },
-            "accessLoggingBucket": {
-                "retentionDays": 60
-            }
-            
-        },
-        "enabled": true
-   },
-   "securityRoles": {
-        "accountId": "${aws_organizations_account.audit.id}"
-   },
-   "accessManagement": {
-        "enabled": true
-   }
+  depends_on = [
+    aws_organizations_account.audit,
+    aws_organizations_account.logging
+  ]
+
+  version = "4.0"
+
+  manifest_json = jsonencode({
+    governedRegions = var.governed_regions
+
+    centralizedLogging = {
+      accountId = aws_organizations_account.logging.id
+      enabled   = true
+      configurations = {
+        loggingBucket = {
+          retentionDays = 60
+        }
+        accessLoggingBucket = {
+          retentionDays = 60
+        }
+      }
+    }
+
+    config = {
+      accountId = aws_organizations_account.audit.id
+      enabled   = true
+      configurations = {
+        loggingBucket = {
+          retentionDays = 60
+        }
+        accessLoggingBucket = {
+          retentionDays = 60
+        }
+      }
+    }
+
+    securityRoles = {
+      accountId = aws_organizations_account.audit.id
+      enabled   = true
+    }
+
+    accessManagement = {
+      enabled = true
+    }
+
+    backup = {
+      enabled = false
+    }
+  })
 }
-EOF
   version       = "4.0"
 }
